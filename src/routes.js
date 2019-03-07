@@ -1,0 +1,26 @@
+import React, { Fragment } from "react";
+import { Router, Route, Switch } from "react-router-dom";
+import { history } from "./helpers/history";
+import NotFound from "./components/NotFound";
+import Dashboard from "./components/Dashboard";
+
+const scrollToTop = () => {
+  window.scrollTo(0, 0);
+  return null;
+};
+
+function Routes() {
+  return (
+    <Router history={history}>
+      <Fragment>
+        <Route component={scrollToTop} />
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route component={NotFound} />
+        </Switch>
+      </Fragment>
+    </Router>
+  );
+}
+
+export default Routes;

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Constants from "./constants";
 
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
@@ -12,10 +13,10 @@ import Routes from "./routes";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#2CA579"
+      main: Constants.primaryColor
     },
     secondary: {
-      main: "#00ACC1"
+      main: Constants.secondaryColor
     },
     type: "dark"
   },

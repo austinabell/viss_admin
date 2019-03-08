@@ -16,14 +16,15 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
 import MainListItems, { secondaryListItems } from "./listItems";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const styles = (theme) => ({
   root: {
     display: "flex"
   },
   toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
+    paddingRight: 24, // keep right padding when drawer closed
+    backgroundColor: theme.palette.type === "dark" ? "#212121" : null
   },
   toolbarIcon: {
     display: "flex",
@@ -95,10 +96,10 @@ const styles = (theme) => ({
   }
 });
 
-function Dashboard(props) {
+function DashboardFramework(props) {
   const [open, handleDrawerOpen] = useState(true);
 
-  const { classes } = props;
+  const { route, classes, children, onTabSelected } = props;
 
   return (
     <div className={classes.root}>
@@ -123,7 +124,7 @@ function Dashboard(props) {
             color="inherit"
             noWrap
             className={classes.title}>
-            Dashboard
+            {route || "Dashboard"}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -142,20 +143,22 @@ function Dashboard(props) {
           </IconButton>
         </div>
         <Divider />
-        <MainListItems selected="dashboard"/>
+        <MainListItems onTabSelected={onTabSelected} route={route} />
         <Divider />
         {secondaryListItems}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        {/* Put content here */}
+        {children}
       </main>
     </div>
   );
 }
 
-Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired
+DashboardFramework.propTypes = {
+  classes: PropTypes.object.isRequired,
+  route: PropTypes.string.isRequired,
+  onTabSelected: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(DashboardFramework);

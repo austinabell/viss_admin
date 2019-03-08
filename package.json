@@ -15,8 +15,8 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "eval $(cat .env) react-scripts start",
+    "build": "eval $(cat .env) react-scripts build",
     "test": "react-scripts test"
   },
   "eslintConfig": {

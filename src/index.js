@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Constants from "./constants";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
@@ -25,13 +27,19 @@ const theme = createMuiTheme({
   }
 });
 
+const client = new ApolloClient({
+  uri: "http://localhost:5000/graphql"
+});
+
 ReactDOM.render(
-  <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <Routes />
-    </MuiThemeProvider>
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes />
+      </MuiThemeProvider>
+    </Provider>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 

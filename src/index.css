@@ -12,3 +12,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.skeleton {
+  background-color: #b0b0b0;
+  color: #b0b0b0;
+  animation-name: color;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  width: 100%;
+  border-radius: 15px;
+}
+
+@keyframes color {
+  0% {
+    background-color: #b0b0b0;
+    opacity: 0.3;
+  }
+  25% {
+    background-color: #b0b0b0;
+    opacity: 0.3;
+  }
+  50% {
+    /* background-color: #FFFFFF; */
+    opacity: 0;
+  }
+  75% {
+    background-color: #b0b0b0;
+    opacity: 0.3;
+  }
+  100% {
+    background-color: #b0b0b0;
+    opacity: 0.3;
+  }
+}

@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { Typography, Card, CardContent } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton
+} from "@material-ui/core";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import DirectionsIcon from "@material-ui/icons/Directions";
 
 const styles = {
   root: {
@@ -10,7 +21,7 @@ const styles = {
     width: "100%",
     position: "relative",
     overflow: "auto",
-    height: `calc(100vh - 110px)` // Estimated
+    maxHeight: `calc(100vh - 110px)` // Estimated
   },
   media: {
     width: "100%",
@@ -44,10 +55,45 @@ function TaskDetails(props) {
         />
       </div>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          Task
-        </Typography>
-        <Typography component="p">Details about any given task</Typography>
+        <List component="nav" className={classes.root}>
+          <ListItem>
+            <ListItemIcon>
+              <LocationOnIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              inset
+              primary="123 Fake St, London, ON"
+              secondary="address"
+            />
+            <ListItemSecondaryAction>
+              <IconButton>
+                <DirectionsIcon color="primary" />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              inset
+              primary="30 minutes: Fri, Mar 8"
+              secondary="9:00 AM-5:00 PM"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              inset
+              primary="Status: Incomplete"
+              secondary="Technicians: Austin"
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              inset
+              primary="Notes:"
+              secondary="The notes will be placed here"
+            />
+          </ListItem>
+          {/* <Divider variant="middle" /> */}
+        </List>
       </CardContent>
     </Card>
   );

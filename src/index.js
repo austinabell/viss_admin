@@ -1,31 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Constants from "./constants";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import store from "./store";
-import Routes from "./routes";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: Constants.primaryColor
-    },
-    secondary: {
-      main: Constants.secondaryColor
-    },
-    type: "dark"
-  },
-  typography: {
-    useNextVariants: true
-  }
-});
+import ThemedApp from "./theme";
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql"
@@ -34,10 +16,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes />
-      </MuiThemeProvider>
+      <ThemedApp />
     </Provider>
   </ApolloProvider>,
   document.getElementById("root")

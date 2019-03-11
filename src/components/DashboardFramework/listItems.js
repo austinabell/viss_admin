@@ -4,14 +4,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   List
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import PeopleIcon from "@material-ui/icons/People";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+
 import Constants from "../../constants";
 
 const styles = {
@@ -74,14 +73,14 @@ MainListItems.propTypes = {
 
 export default withStyles(styles)(MainListItems);
 
-export const secondaryListItems = (
-  <List>
-    <ListSubheader inset>Account</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <ExitToAppIcon />
-      </ListItemIcon>
-      <ListItemText primary="Logout" />
-    </ListItem>
-  </List>
-);
+// export const secondaryListItems = (
+//   <List>
+//     <ListSubheader inset>Account</ListSubheader>
+//     <ListItem button>
+//       <ListItemIcon>
+//         <ExitToAppIcon />
+//       </ListItemIcon>
+//       <ListItemText primary="Logout" />
+//     </ListItem>
+//   </List>
+// );

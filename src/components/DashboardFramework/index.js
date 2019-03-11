@@ -14,7 +14,8 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
-import MainListItems, { secondaryListItems } from "./listItems";
+import MainListItems from "./listItems";
+import SecondaryListItems from "./secondaryList";
 
 const drawerWidth = 220;
 
@@ -143,7 +144,7 @@ function DashboardFramework({ route, classes, children, onTabSelected }) {
         <Divider />
         <MainListItems onTabSelected={onTabSelected} route={route} />
         <Divider />
-        {secondaryListItems}
+        <SecondaryListItems />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

@@ -14,9 +14,7 @@ const styles = {
   }
 };
 
-function PaperSkeleton(props) {
-  const { classes } = props;
-
+function PaperSkeleton({ classes }) {
   return <Paper className={"skeleton " + classes.root} />;
 }
 

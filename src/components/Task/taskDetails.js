@@ -36,8 +36,7 @@ const styles = {
   }
 };
 
-function TaskDetails(props) {
-  const { classes } = props;
+function TaskDetails({ classes }) {
   const [loaded, setLoaded] = useState(false);
 
   const apiKey = process.env.REACT_APP_MAPS_KEY;

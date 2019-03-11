@@ -14,9 +14,7 @@ const styles = {
   }
 };
 
-function DailyTaskList(props) {
-  const { classes } = props;
-
+function DailyTaskList({ classes }) {
   return <Paper className={classes.root} />;
 }
 

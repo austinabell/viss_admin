@@ -53,9 +53,7 @@ const GET_TASKS = gql`
   }
 `;
 
-function TaskList(props) {
-  const { classes } = props;
-
+function TaskList({ classes }) {
   return (
     <Query query={GET_TASKS}>
       {({ loading, error, data }) => {

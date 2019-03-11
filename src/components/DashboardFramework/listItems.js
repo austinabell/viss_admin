@@ -20,9 +20,7 @@ const styles = {
   }
 };
 
-function MainListItems(props) {
-  const { route, classes, onTabSelected } = props;
-
+function MainListItems({ route, classes, onTabSelected }) {
   const tasksSelected = route && route.toLowerCase() === "tasks";
   const techniciansSelected = route && route.toLowerCase() === "technicians";
 

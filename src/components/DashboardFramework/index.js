@@ -96,10 +96,8 @@ const styles = (theme) => ({
   }
 });
 
-function DashboardFramework(props) {
+function DashboardFramework({ route, classes, children, onTabSelected }) {
   const [open, handleDrawerOpen] = useState(true);
-
-  const { route, classes, children, onTabSelected } = props;
 
   return (
     <div className={classes.root}>

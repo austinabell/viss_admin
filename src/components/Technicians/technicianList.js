@@ -14,9 +14,7 @@ const styles = {
   }
 };
 
-function TechnicianList(props) {
-  const { classes } = props;
-
+function TechnicianList({ classes }) {
   return <Paper className={classes.root} />;
 }
 

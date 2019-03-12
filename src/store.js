@@ -20,7 +20,7 @@ const store = createStore(
 );
 
 store.subscribe(
-  // ? Double check this
+  // Saves the config options to local storage 
   throttle(() => {
     saveState({ config: store.getState().config });
   }, 1000)

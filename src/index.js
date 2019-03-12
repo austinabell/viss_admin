@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import ApolloClient from "apollo-boost";
+import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 import "./index.css";
@@ -10,7 +10,8 @@ import store from "./store";
 import ThemedApp from "./theme";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql"
+  uri: "http://localhost:5000/graphql",
+  cache: new InMemoryCache()
 });
 
 ReactDOM.render(

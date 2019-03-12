@@ -72,15 +72,3 @@ MainListItems.propTypes = {
 };
 
 export default withStyles(styles)(MainListItems);
-
-// export const secondaryListItems = (
-//   <List>
-//     <ListSubheader inset>Account</ListSubheader>
-//     <ListItem button>
-//       <ListItemIcon>
-//         <ExitToAppIcon />
-//       </ListItemIcon>
-//       <ListItemText primary="Logout" />
-//     </ListItem>
-//   </List>
-// );

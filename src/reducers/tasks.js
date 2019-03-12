@@ -1,6 +1,9 @@
-import { FETCH_TASKS, TASKS_RECEIVED } from "../actions/types";
+import { FETCH_TASKS, TASKS_RECEIVED, TASK_SELECTED } from "../actions/types";
 
-export const tasks = function(state = { loading: false, tasks: [] }, action) {
+export const taskData = function(
+  state = { loading: false, tasks: [] },
+  action
+) {
   switch (action.type) {
     case FETCH_TASKS:
       return { ...state, loading: true };
@@ -9,6 +12,11 @@ export const tasks = function(state = { loading: false, tasks: [] }, action) {
         ...state,
         loading: false,
         tasks: action.tasks
+      };
+    case TASK_SELECTED:
+      return {
+        ...state,
+        selectedTask: action.selectedTask
       };
     default:
       return state;

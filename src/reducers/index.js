@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import { TOGGLE_THEME, DARK, LIGHT } from "../actions/types";
-import { tasks } from "./tasks";
+import { taskData } from "./tasks";
 
-const config = function(state = { theme: LIGHT }, action = null) {
+const config = function(state = { theme: LIGHT }, action) {
   switch (action.type) {
     case TOGGLE_THEME:
       return {
@@ -19,5 +19,5 @@ const config = function(state = { theme: LIGHT }, action = null) {
  */
 export default combineReducers({
   config,
-  tasks
+  taskData
 });

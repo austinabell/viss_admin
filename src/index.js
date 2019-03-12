@@ -9,8 +9,12 @@ import * as serviceWorker from "./serviceWorker";
 import store from "./store";
 import ThemedApp from "./theme";
 
+const uri =
+  process.env.REACT_APP_API_HOST ||
+  `http://${window.location.hostname}:5000/graphql`;
+
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql",
+  uri,
   cache: new InMemoryCache()
 });
 

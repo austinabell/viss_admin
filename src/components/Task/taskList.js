@@ -15,7 +15,6 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import PaperSkeleton from "../skeleton";
 import Constants from "../../constants";
-import { toggleTheme } from "../../actions/configActions";
 import { selectTask } from "../../actions/taskActions";
 
 const styles = {
@@ -120,5 +119,5 @@ TaskList.propTypes = {
 
 export default connect(
   null,
-  { selectTask, toggleTheme }
+  { selectTask }
 )(withStyles(styles)(TaskList));

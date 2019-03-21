@@ -13,8 +13,6 @@ const uri =
   process.env.REACT_APP_API_HOST ||
   `http://${window.location.hostname}:5000/graphql`;
 
-console.log(uri);
-
 const client = new ApolloClient({
   uri,
   cache: new InMemoryCache()

@@ -1,7 +1,21 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Typography,
+  Paper
+} from "@material-ui/core";
+import { connect } from "react-redux";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import PaperSkeleton from "../skeleton";
+import Constants from "../../constants";
+import { selectTechnician } from "../../actions/technicianActions";
 
 const styles = {
   root: {
@@ -11,15 +25,99 @@ const styles = {
     position: "relative",
     overflow: "auto",
     height: `calc(100vh - 110px)` // Estimated
+  },
+  inline: {
+    display: "inline"
+  },
+  avatar: {
+    margin: 8,
+    color: "#fff",
+    backgroundColor: Constants.primaryColor
+  },
+  errorText: {
+    margin: 16
   }
 };
 
-function TechnicianList({ classes }) {
-  return <Paper className={classes.root} />;
+const GET_TECHNICIANS = gql`
+  {
+    allTasks {
+      id
+      address
+      duration
+      windowStart
+      windowEnd
+      isAllDay
+      status
+      lat
+      lng
+      technicians {
+        name
+      }
+    }
+  }
+`;
+
+function TechnicianList({ classes, selectTechnician }) {
+  return (
+    <Query query={GET_TECHNICIANS}>
+      {({ loading, error, data }) => {
+        if (loading) return <PaperSkeleton />;
+        if (error)
+          return (
+            <Paper className={classes.root}>
+              <Typography variant="body1" className={classes.errorText}>
+                There was an error in retrieving the data.
+              </Typography>
+              <Typography className={classes.errorText}>
+                Code: {error.message}
+              </Typography>
+            </Paper>
+          );
+
+        return (
+          <Paper className={classes.root}>
+            <List>
+              {data.allTasks.map((task) => (
+                <ListItem
+                  key={task.id}
+                  button
+                  onClick={() => selectTechnician(task.id)}
+                  alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar className={classes.avatar}>T</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography variant="body1">{task.address}</Typography>
+                    }
+                    secondary={
+                      <Fragment>
+                        <Typography color="textSecondary">
+                          30 minutes 9:00 AM-5:00PM
+                        </Typography>
+                        <Typography color="textSecondary">
+                          Assigned to Austin
+                        </Typography>
+                      </Fragment>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        );
+      }}
+    </Query>
+  );
 }
 
 TechnicianList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(TechnicianList);
+export default connect(
+  null,
+  { selectTechnician }
+)(withStyles(styles)(TechnicianList));

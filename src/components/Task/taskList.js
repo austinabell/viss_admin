@@ -1,12 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import {
   List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
   Typography,
   Paper
 } from "@material-ui/core";
@@ -16,6 +12,7 @@ import { Query } from "react-apollo";
 import PaperSkeleton from "../skeleton";
 import Constants from "../../constants";
 import { selectTask } from "../../actions/taskActions";
+import TaskItem from "./taskItem";
 
 const styles = {
   root: {
@@ -44,6 +41,8 @@ const GET_TASKS = gql`
     allTasks {
       id
       address
+      city
+      province
       duration
       windowStart
       windowEnd
@@ -53,6 +52,7 @@ const GET_TASKS = gql`
       lng
       technicians {
         name
+        email
       }
     }
   }
@@ -79,31 +79,11 @@ function TaskList({ classes, selectTask }) {
           <Paper className={classes.root}>
             <List>
               {data.allTasks.map((task) => (
-                <ListItem
+                <TaskItem
                   key={task.id}
-                  button
+                  task={task}
                   onClick={() => selectTask(task)}
-                  alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar className={classes.avatar}>T</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    disableTypography
-                    primary={
-                      <Typography variant="body1">{task.address}</Typography>
-                    }
-                    secondary={
-                      <Fragment>
-                        <Typography color="textSecondary">
-                          30 minutes 9:00 AM-5:00PM
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Assigned to Austin
-                        </Typography>
-                      </Fragment>
-                    }
-                  />
-                </ListItem>
+                />
               ))}
             </List>
           </Paper>

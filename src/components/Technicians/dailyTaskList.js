@@ -1,21 +1,13 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  Card,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Typography,
-  Paper
-} from "@material-ui/core";
+import { Card, List, Typography, Paper } from "@material-ui/core";
 import { connect } from "react-redux";
 import gql from "graphql-tag";
 import Constants from "../../constants";
 import PaperSkeleton from "../skeleton";
+import TaskItem from "../Task/taskItem";
 
 const styles = {
   root: {
@@ -44,10 +36,12 @@ const styles = {
 };
 
 const GET_TECHNICIAN_TASKS = gql`
-  {
-    allTasks {
+  query userTasks($id: ID!) {
+    userTasks(id: $id) {
       id
       address
+      city
+      province
       duration
       windowStart
       windowEnd
@@ -62,8 +56,8 @@ const GET_TECHNICIAN_TASKS = gql`
   }
 `;
 
-function DailyTaskList({ classes, technicianId }) {
-  if (!technicianId) {
+function DailyTaskList({ classes, id }) {
+  if (!id) {
     return (
       // ? Update empty template
       <Card className={classes.root}>
@@ -74,7 +68,7 @@ function DailyTaskList({ classes, technicianId }) {
     );
   } else {
     return (
-      <Query query={GET_TECHNICIAN_TASKS} variables={{ technicianId }}>
+      <Query query={GET_TECHNICIAN_TASKS} variables={{ id }}>
         {({ loading, error, data }) => {
           if (loading) return <PaperSkeleton />;
           if (error)
@@ -92,32 +86,13 @@ function DailyTaskList({ classes, technicianId }) {
           return (
             <Paper className={classes.root}>
               <List>
-                {data.allTasks.map((task) => (
-                  <ListItem
+                {data.userTasks.map((task) => (
+                  <TaskItem
                     key={task.id}
-                    button
-                    onClick={() => console.log(`clicked task ${task}`)}
-                    alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar className={classes.avatar}>T</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      disableTypography
-                      primary={
-                        <Typography variant="body1">{task.address}</Typography>
-                      }
-                      secondary={
-                        <Fragment>
-                          <Typography color="textSecondary">
-                            30 minutes 9:00 AM-5:00PM
-                          </Typography>
-                          <Typography color="textSecondary">
-                            Assigned to Austin
-                          </Typography>
-                        </Fragment>
-                      }
-                    />
-                  </ListItem>
+                    task={task}
+                    hideAssigned={true}
+                    onClick={() => console.log(`pressed ${task.id}`)}
+                  />
                 ))}
               </List>
             </Paper>
@@ -129,7 +104,7 @@ function DailyTaskList({ classes, technicianId }) {
 }
 
 const mapStateToProps = (state) => ({
-  technicianId: state.technicianData.selectedTechnicianId
+  id: state.technicianData.selectedTechnicianId
 });
 
 DailyTaskList.propTypes = {

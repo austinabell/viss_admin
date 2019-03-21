@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+
 import { withStyles } from "@material-ui/core/styles";
 import {
   List,
@@ -16,6 +17,7 @@ import { Query } from "react-apollo";
 import PaperSkeleton from "../skeleton";
 import Constants from "../../constants";
 import { selectTechnician } from "../../actions/technicianActions";
+import { updatedFormat } from "../../helpers/stringFormat";
 
 const styles = {
   root: {
@@ -34,6 +36,11 @@ const styles = {
     color: "#fff",
     backgroundColor: Constants.primaryColor
   },
+  avatarInactive: {
+    margin: 8,
+    color: "#fff",
+    backgroundColor: Constants.orangeColor
+  },
   errorText: {
     margin: 16
   }
@@ -41,19 +48,12 @@ const styles = {
 
 const GET_TECHNICIANS = gql`
   {
-    allTasks {
+    users {
       id
-      address
-      duration
-      windowStart
-      windowEnd
-      isAllDay
-      status
-      lat
-      lng
-      technicians {
-        name
-      }
+      name
+      email
+      isStarted
+      updatedAt
     }
   }
 `;
@@ -78,27 +78,34 @@ function TechnicianList({ classes, selectTechnician }) {
         return (
           <Paper className={classes.root}>
             <List>
-              {data.allTasks.map((task) => (
+              {data.users.map((user) => (
                 <ListItem
-                  key={task.id}
+                  key={user.id}
                   button
-                  onClick={() => selectTechnician(task.id)}
+                  onClick={() => selectTechnician(user.id)}
                   alignItems="flex-start">
                   <ListItemAvatar>
-                    <Avatar className={classes.avatar}>T</Avatar>
+                    <Avatar
+                      className={
+                        user.isStarted ? classes.avatar : classes.avatarInactive
+                      }>
+                      {user.isStarted ? "A" : "I"}
+                    </Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     disableTypography
                     primary={
-                      <Typography variant="body1">{task.address}</Typography>
+                      <Typography variant="body1">
+                        {user.name} - {user.email}
+                      </Typography>
                     }
                     secondary={
                       <Fragment>
                         <Typography color="textSecondary">
-                          30 minutes 9:00 AM-5:00PM
+                          {user.isStarted ? "Active" : "Inactive"}
                         </Typography>
                         <Typography color="textSecondary">
-                          Assigned to Austin
+                          Last updated: {updatedFormat(user.updatedAt)}
                         </Typography>
                       </Fragment>
                     }

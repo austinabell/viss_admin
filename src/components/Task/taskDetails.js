@@ -15,6 +15,13 @@ import {
 import { connect } from "react-redux";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import DirectionsIcon from "@material-ui/icons/Directions";
+import {
+  addressFormat,
+  taskDateFormat,
+  taskTimeFormat,
+  statusFormat,
+  technicianListFormat
+} from "../../helpers/stringFormat";
 
 const styles = {
   root: {
@@ -74,7 +81,11 @@ function TaskDetails({ classes, task }) {
               <ListItemIcon>
                 <LocationOnIcon color="primary" />
               </ListItemIcon>
-              <ListItemText inset primary={task.address} secondary="address" />
+              <ListItemText
+                inset
+                primary={addressFormat(task)}
+                secondary="address"
+              />
               <ListItemSecondaryAction>
                 <IconButton>
                   <DirectionsIcon color="primary" />
@@ -84,23 +95,19 @@ function TaskDetails({ classes, task }) {
             <ListItem>
               <ListItemText
                 inset
-                primary="30 minutes: Fri, Mar 8"
-                secondary="9:00 AM-5:00 PM"
+                primary={taskDateFormat(task)}
+                secondary={taskTimeFormat(task)}
               />
             </ListItem>
             <ListItem>
               <ListItemText
                 inset
-                primary="Status: Incomplete"
-                secondary="Technicians: Austin"
+                primary={`Status: ${statusFormat(task.status)}`}
+                secondary={technicianListFormat(task.technicians)}
               />
             </ListItem>
             <ListItem>
-              <ListItemText
-                inset
-                primary="Notes:"
-                secondary="The notes will be placed here"
-              />
+              <ListItemText inset primary="Notes:" secondary={task.notes} />
             </ListItem>
             {/* <Divider variant="middle" /> */}
           </List>

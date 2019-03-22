@@ -1,52 +1,52 @@
 import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Fab, Zoom } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 
 import DashboardFramework from "../../components/DashboardFramework";
-import TaskList from "../../components/Task/taskList";
-import TaskDetails from "../../components/Task/taskDetails";
-import TechnicianList from "../../components/Technicians/technicianList";
-import DailyTaskList from "../../components/Technicians/dailyTaskList";
+import DashboardContent from "./dashboardContent";
+import AddIcon from "@material-ui/icons/Add";
+import AddEditDialog from "../../components/Dialog/addEditDialog";
 
-function Dashboard() {
+const styles = (theme) => ({
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit
+  }
+});
+
+function Dashboard({ classes }) {
   const [tab, selectTab] = useState("Tasks");
+  const [open, handleDialogOpen] = useState(false);
 
   function onTabSelected(tab) {
     selectTab(tab);
   }
 
-  if (tab === "Tasks") {
-    return (
-      <DashboardFramework onTabSelected={onTabSelected} route={tab}>
-        <Grid container spacing={24}>
-          <Grid item xs={6}>
-            <TaskList />
-          </Grid>
-          <Grid item xs={6}>
-            <TaskDetails />
-          </Grid>
-        </Grid>
-      </DashboardFramework>
-    );
-  } else if (tab === "Technicians") {
-    return (
-      <DashboardFramework onTabSelected={onTabSelected} route={tab}>
-        <Grid container spacing={24}>
-          <Grid item xs={6}>
-            <TechnicianList />
-          </Grid>
-          <Grid item xs={6}>
-            <DailyTaskList />
-          </Grid>
-        </Grid>
-      </DashboardFramework>
-    );
-  } else {
-    return (
-      <DashboardFramework onTabSelected={onTabSelected} route={tab}>
-        Fallback
-      </DashboardFramework>
-    );
-  }
+  return (
+    <DashboardFramework onTabSelected={onTabSelected} route={tab}>
+      <DashboardContent tab={tab} />
+      <Zoom in={tab === "Tasks"} unmountOnExit>
+        <Fab
+          color="primary"
+          variant="extended"
+          className={classes.fab}
+          onClick={() => handleDialogOpen(true)}>
+          <AddIcon className={classes.extendedIcon} />
+          New Task
+        </Fab>
+      </Zoom>
+      <AddEditDialog open={open} handleClose={() => handleDialogOpen(false)} />
+    </DashboardFramework>
+  );
 }
 
-export default Dashboard;
+Dashboard.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Dashboard);

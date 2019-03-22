@@ -5,20 +5,24 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
-  Button
+  Typography
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
+import AddDialogContent from "./AddDialogContent";
 
-const styles = {
+const styles = (theme) => ({
   appBar: {
-    position: "relative"
+    position: "relative",
+    backgroundColor: theme.palette.type === "dark" ? "#212121" : null
   },
   flex: {
     flex: 1
+  },
+  dialog: {
+    backgroundColor: theme.palette.type === "dark" ? "#212121" : null
   }
-};
+});
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -30,20 +34,21 @@ function AddEditDialog({ classes, open, handleClose, task }) {
       fullScreen
       open={open}
       onClose={handleClose}
-      TransitionComponent={Transition}>
-      <AppBar className={classes.appBar}>
+      TransitionComponent={Transition}
+      PaperProps={{
+        classes: {
+          root: classes.dialog
+        }
+      }}>
+      <AppBar position="absolute" className={classes.appBar}>
         <Toolbar>
+          <Typography variant="h6" color="inherit" className={classes.flex} />
           <IconButton color="inherit" onClick={handleClose} aria-label="Close">
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.flex}>
-            {task ? "Edit Task" : "New Task"}
-          </Typography>
-          <Button color="inherit" onClick={handleClose}>
-            Create
-          </Button>
         </Toolbar>
       </AppBar>
+      <AddDialogContent handleClose={handleClose} />
     </Dialog>
   );
 }

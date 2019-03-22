@@ -6,13 +6,13 @@ import PropTypes from "prop-types";
 import DashboardFramework from "../../components/DashboardFramework";
 import DashboardContent from "./dashboardContent";
 import AddIcon from "@material-ui/icons/Add";
-import AddEditDialog from "../../components/Dialog/addEditDialog";
+import AddEditDialog from "../../components/Dialog/AddEditDialog";
 
 const styles = (theme) => ({
   fab: {
     position: "absolute",
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2
+    bottom: theme.spacing.unit * 3,
+    right: theme.spacing.unit * 3
   },
   extendedIcon: {
     marginRight: theme.spacing.unit

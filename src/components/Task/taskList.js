@@ -1,18 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  List,
-  Typography,
-  Paper
-} from "@material-ui/core";
+import { List, Typography, Paper } from "@material-ui/core";
 import { connect } from "react-redux";
-import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import PaperSkeleton from "../skeleton";
 import Constants from "../../constants";
 import { selectTask } from "../../actions/taskActions";
 import TaskItem from "./taskItem";
+import { GET_TASKS } from "../../graphql/queries";
 
 const styles = {
   root: {
@@ -35,28 +31,6 @@ const styles = {
     margin: 16
   }
 };
-
-const GET_TASKS = gql`
-  {
-    allTasks {
-      id
-      address
-      city
-      province
-      duration
-      windowStart
-      windowEnd
-      isAllDay
-      status
-      lat
-      lng
-      technicians {
-        name
-        email
-      }
-    }
-  }
-`;
 
 function TaskList({ classes, selectTask }) {
   return (

@@ -10,10 +10,15 @@ import {
   Button,
   Typography
 } from "@material-ui/core";
-import CustomerInfoForm from "./CustomerInfo";
-import PaymentForm from "./TimingInfo";
-import AssignTechnicianInfo from "./AssignTechnician";
+import { Mutation } from "react-apollo";
+import moment from "moment";
+import CustomerInfoForm from "./CustomerInfoForm";
+import TaskInfoForm from "./TaskInfoForm";
+import AssignTechnicianInfo from "./AssignTechnicianForm";
 import AddressConfirmDialog from "./AddressConfirmDialog";
+import { mergeDateTime } from "../../helpers/date";
+import { ADD_TASK_MUTATION } from "../../graphql/mutations";
+import { GET_TASKS } from "../../graphql/queries";
 
 const styles = (theme) => ({
   layout: {
@@ -58,9 +63,9 @@ function getStepContent(step, task, updateTask) {
     case 0:
       return <CustomerInfoForm task={task} updateTask={updateTask} />;
     case 1:
-      return <PaymentForm />;
+      return <TaskInfoForm task={task} updateTask={updateTask} />;
     case 2:
-      return <AssignTechnicianInfo />;
+      return <AssignTechnicianInfo task={task} updateTask={updateTask} />;
     default:
       throw new Error("Unknown step");
   }
@@ -74,18 +79,29 @@ function AddDialogContent({ classes, handleClose }) {
     cityError: "",
     city: "London",
     province: "ON",
+    duration: 0,
     email: "",
-    phone: ""
+    phone: "",
+    notes: "",
+    date: moment(),
+    windowStart: moment("2000-01-01T09:00:00"),
+    windowEnd: moment("2000-01-01T17:00:00"),
+    isAllDay: false,
+    techniciansArr: [],
+    technicians: [],
+    durationString: "00:00"
   });
 
   const [activeStep, changeStep] = useState(0);
   const [confirmDialogOpen, confirmDialogChange] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [formattedAddress, changeFormattedAddress] = useState("");
 
-  function incrementStep() {
+  function incrementStep(addTaskMutation) {
     switch (activeStep) {
       case 0:
-        if (task.address === "" || task.city === "") {
+        if (task.address.length < 4 || task.city === "") {
           updateTask({
             ...task,
             addressError: task.address === "" ? "Address Cannot be empty" : "",
@@ -119,10 +135,30 @@ function AddDialogContent({ classes, handleClose }) {
         );
         return;
       case 1:
+        task.windowStart = mergeDateTime(task.date, task.windowStart);
+        task.windowEnd = mergeDateTime(task.date, task.windowEnd);
+        const durationArr = task.durationString.split(":");
+        try {
+          task.duration =
+            parseInt(durationArr[0], 10) * 60 + parseInt(durationArr[1], 10);
+        } catch (err) {
+          console.warn(err);
+          return;
+        }
         changeStep(activeStep + 1);
         return;
       case 2:
         // Handle creation of task
+        task.technicians = task.techniciansArr.map((t) => t.id);
+        setSubmitting(true);
+        addTaskMutation({ variables: task })
+          .then(function(res) {
+            if (res.data.createTask) {
+              handleClose();
+            }
+          })
+          .catch((e) => setError(e.toString));
+        setSubmitting(false);
         return;
       default:
         return;
@@ -164,17 +200,32 @@ function AddDialogContent({ classes, handleClose }) {
         </Stepper>
         <Fragment>
           {getStepContent(activeStep, task, updateTask)}
+          {error && <Typography>Error in creating task: {error}</Typography>}
           <div className={classes.buttons}>
             <Button onClick={decrementStep} className={classes.button}>
               {activeStep === 0 ? "Cancel" : "Back"}
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={incrementStep}
-              className={classes.button}>
-              {activeStep === steps.length - 1 ? "Create Task" : "Next"}
-            </Button>
+            <Mutation
+              mutation={ADD_TASK_MUTATION}
+              update={(cache, { data: { createTask } }) => {
+                const { allTasks } = cache.readQuery({ query: GET_TASKS });
+                cache.writeQuery({
+                  query: GET_TASKS,
+                  data: { allTasks: allTasks.concat([createTask]) }
+                });
+              }}>
+              {(addTaskMutation) => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={
+                    !submitting ? () => incrementStep(addTaskMutation) : null
+                  }
+                  className={classes.button}>
+                  {activeStep === steps.length - 1 ? "Create Task" : "Next"}
+                </Button>
+              )}
+            </Mutation>
           </div>
         </Fragment>
       </Paper>

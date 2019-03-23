@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+import { MuiPickersUtilsProvider } from "material-ui-pickers";
+import MomentUtils from "@date-io/moment";
 
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
@@ -21,7 +23,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <ThemedApp />
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <ThemedApp />
+      </MuiPickersUtilsProvider>
     </Provider>
   </ApolloProvider>,
   document.getElementById("root")

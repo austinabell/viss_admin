@@ -82,7 +82,12 @@ function TaskItem({ classes, task, onClick, hideAssigned }) {
       </ListItemAvatar>
       <ListItemText
         disableTypography
-        primary={<Typography variant="body1">{addressFormat(task)}</Typography>}
+        primary={
+          <Typography variant="body1">
+            {task.name && `${task.name} - `}
+            {addressFormat(task)}
+          </Typography>
+        }
         secondary={
           <Fragment>
             <Typography color="textSecondary">

@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import { Card, List, Typography, Paper } from "@material-ui/core";
 import { connect } from "react-redux";
-import gql from "graphql-tag";
+import { GET_TECHNICIAN_TASKS } from "../../graphql/queries";
 import Constants from "../../constants";
 import PaperSkeleton from "../skeleton";
 import TaskItem from "../Task/taskItem";
@@ -34,27 +34,6 @@ const styles = {
     textAlign: "center"
   }
 };
-
-const GET_TECHNICIAN_TASKS = gql`
-  query userTasks($id: ID!) {
-    userTasks(id: $id) {
-      id
-      address
-      city
-      province
-      duration
-      windowStart
-      windowEnd
-      isAllDay
-      status
-      lat
-      lng
-      technicians {
-        name
-      }
-    }
-  }
-`;
 
 function DailyTaskList({ classes, id }) {
   if (!id) {

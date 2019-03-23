@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-function SecondaryListItems({ classes, config, toggleTheme }) {
+function DashboardSecondaryList({ classes, config, toggleTheme }) {
   const darkThemeSelected = config !== undefined && config.theme === "dark";
   return (
     <List>
@@ -55,7 +55,7 @@ const mapStateToProps = (state) => ({
   config: state.config
 });
 
-SecondaryListItems.propTypes = {
+DashboardSecondaryList.propTypes = {
   classes: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired
 };
@@ -63,4 +63,4 @@ SecondaryListItems.propTypes = {
 export default connect(
   mapStateToProps,
   { toggleTheme }
-)(withStyles(styles)(SecondaryListItems));
+)(withStyles(styles)(DashboardSecondaryList));

@@ -19,7 +19,7 @@ const styles = {
   }
 };
 
-function MainListItems({ route, classes, onTabSelected }) {
+function DashboardMainList({ route, classes, onTabSelected }) {
   const tasksSelected = route && route.toLowerCase() === "tasks";
   const techniciansSelected = route && route.toLowerCase() === "technicians";
 
@@ -65,10 +65,10 @@ function MainListItems({ route, classes, onTabSelected }) {
   );
 }
 
-MainListItems.propTypes = {
+DashboardMainList.propTypes = {
   classes: PropTypes.object.isRequired,
   route: PropTypes.string.isRequired,
   onTabSelected: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(MainListItems);
+export default withStyles(styles)(DashboardMainList);

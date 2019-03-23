@@ -4,9 +4,9 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
 import DashboardFramework from "../../components/DashboardFramework";
-import DashboardContent from "./dashboardContent";
+import DashboardContent from "./DashboardContent";
 import AddIcon from "@material-ui/icons/Add";
-import AddEditDialog from "../../components/Dialog/AddDialog";
+import AddEditDialog from "../../components/Dialog/AddEditDialog";
 
 const styles = (theme) => ({
   fab: {

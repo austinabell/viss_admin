@@ -60,7 +60,7 @@ const GET_TECHNICIANS = gql`
 
 function TechnicianList({ classes, selectTechnician }) {
   return (
-    <Query query={GET_TECHNICIANS}>
+    <Query query={GET_TECHNICIANS} pollInterval={10000}>
       {({ loading, error, data }) => {
         if (loading) return <PaperSkeleton />;
         if (error)

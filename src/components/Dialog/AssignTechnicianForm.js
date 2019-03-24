@@ -108,41 +108,43 @@ function AssignTechnicianInfo({ classes, theme, task, updateTask }) {
                 if (error) {
                   return null;
                 }
-                return (
-                  <Select
-                    multiple
-                    value={techniciansArr || []}
-                    // onOpen={populateTechnicianArray}
-                    // onChange={(e) =>
-                    //   updateTask({ ...task, techniciansArr: e.target.value })
-                    // }
-                    onChange={handleChange}
-                    input={
-                      <OutlinedInput labelWidth={0} id="province-simple" />
-                    }
-                    renderValue={(selected) => (
-                      <div className={classes.chips}>
-                        {selected.map((user) => (
-                          <Chip
-                            key={user.id}
-                            label={user.name ? user.name : user.email}
-                            className={classes.chip}
-                            color="primary"
-                          />
-                        ))}
-                      </div>
-                    )}
-                    MenuProps={MenuProps}>
-                    {data.users.map((user) => (
-                      <MenuItem
-                        key={user.id}
-                        value={user}
-                        style={getStyles(user, techniciansArr)}>
-                        {user.name ? user.name : user.email}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                );
+                if (data.users) {
+                  return (
+                    <Select
+                      multiple
+                      value={techniciansArr || []}
+                      // onOpen={populateTechnicianArray}
+                      // onChange={(e) =>
+                      //   updateTask({ ...task, techniciansArr: e.target.value })
+                      // }
+                      onChange={handleChange}
+                      input={
+                        <OutlinedInput labelWidth={0} id="province-simple" />
+                      }
+                      renderValue={(selected) => (
+                        <div className={classes.chips}>
+                          {selected.map((user) => (
+                            <Chip
+                              key={user.id}
+                              label={user.name ? user.name : user.email}
+                              className={classes.chip}
+                              color="primary"
+                            />
+                          ))}
+                        </div>
+                      )}
+                      MenuProps={MenuProps}>
+                      {data.users.map((user) => (
+                        <MenuItem
+                          key={user.id}
+                          value={user}
+                          style={getStyles(user, techniciansArr)}>
+                          {user.name ? user.name : user.email}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  );
+                } else return null;
               }}
             </Query>
           </FormControl>

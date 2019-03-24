@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import CustomerInfoForm from "./CustomerInfoForm";
 import TaskInfoForm from "./TaskInfoForm";
 import PropTypes from "prop-types";
@@ -21,27 +21,28 @@ const styles = {
   }
 };
 
-function EditDialog({ classes, task, updateTask, open, onClose }) {
+function EditDialog({ classes, task, updateTask, open, onClose, refetch }) {
   function mutateEditedTask(editTaskMutation) {
     task.windowStart = mergeDateTime(task.date, task.windowStart);
     task.windowEnd = mergeDateTime(task.date, task.windowEnd);
-    const durationArr = task.durationString.split(":");
     try {
+      const durationArr = task.durationString.split(":");
       task.duration =
         parseInt(durationArr[0], 10) * 60 + parseInt(durationArr[1], 10);
     } catch (err) {
+      // ? handle error better
       console.warn(err);
       return;
     }
     task.technicians = task.techniciansArr.map((t) => t.id);
-
     editTaskMutation({ variables: task })
       .then(function(res) {
         if (res.data.updateTask) {
+          // Ideally update cache but ~Apollo client~
           onClose();
         }
       })
-      .catch((e) => console.warn(e.toString));
+      .catch((e) => console.warn(e.toString()));
     onClose();
   }
   return (
@@ -67,7 +68,9 @@ function EditDialog({ classes, task, updateTask, open, onClose }) {
         <Mutation
           mutation={EDIT_TASK_MUTATION}
           update={(cache, { data: { updateTask } }) => {
-            console.log(updateTask);
+            refetch();
+            // console.log(cache);
+            // console.log(updateTask);
             // const { allTasks } = cache.readQuery({ query: GET_TASKS });
             // cache.writeQuery({
             //   query: GET_TASKS,

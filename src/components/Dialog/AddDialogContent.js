@@ -171,7 +171,7 @@ function AddDialogContent({ classes, handleClose }) {
               handleClose();
             }
           })
-          .catch((e) => setError(e.toString));
+          .catch((e) => setError(e.toString()));
         setSubmitting(false);
         return;
       default:

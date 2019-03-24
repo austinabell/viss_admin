@@ -12,6 +12,8 @@ const ADD_TASK_MUTATION = gql`
     $windowStart: String
     $windowEnd: String
     $duration: Int!
+    $phone: String
+    $email: String
     $notes: String
     $technicians: [ID!]
   ) {
@@ -27,6 +29,8 @@ const ADD_TASK_MUTATION = gql`
       windowEnd: $windowEnd
       duration: $duration
       notes: $notes
+      phone: $phone
+      email: $email
       technicians: $technicians
     ) {
       id
@@ -40,6 +44,8 @@ const ADD_TASK_MUTATION = gql`
       windowStart
       windowEnd
       duration
+      phone
+      email
       notes
       status
       technicians {
@@ -64,6 +70,8 @@ const EDIT_TASK_MUTATION = gql`
     $windowStart: String
     $windowEnd: String
     $duration: Int!
+    $phone: String
+    $email: String
     $notes: String
     $technicians: [ID!]
   ) {
@@ -79,6 +87,8 @@ const EDIT_TASK_MUTATION = gql`
       windowStart: $windowStart
       windowEnd: $windowEnd
       duration: $duration
+      phone: $phone
+      email: $email
       notes: $notes
       technicians: $technicians
     ) {
@@ -94,6 +104,8 @@ const EDIT_TASK_MUTATION = gql`
       windowEnd
       duration
       notes
+      phone
+      email
       status
       technicians {
         id

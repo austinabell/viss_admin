@@ -107,7 +107,7 @@ function CustomerInfoForm({ task, updateTask, editing }) {
         <TextField
           label="Email (optional)"
           name="email"
-          value={task.email}
+          value={task.email || ""}
           onChange={updateField}
           fullWidth
           variant="outlined"
@@ -115,10 +115,11 @@ function CustomerInfoForm({ task, updateTask, editing }) {
         />
       </Grid>
       <Grid item xs={12} sm={6}>
+        {/* TODO: Format phone number */}
         <TextField
           label="Phone Number (optional)"
           name="phone"
-          value={task.phone}
+          value={task.phone || ""}
           onChange={updateField}
           fullWidth
           variant="outlined"

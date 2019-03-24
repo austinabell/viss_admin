@@ -5,6 +5,9 @@ const GET_TASKS = gql`
     allTasks {
       id
       name
+      email
+      phone
+      notes
       address
       city
       province
@@ -29,6 +32,9 @@ const GET_TECHNICIAN_TASKS = gql`
     userTasks(id: $id) {
       id
       name
+      email
+      phone
+      notes
       address
       city
       province

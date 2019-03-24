@@ -14,7 +14,10 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
+import PhoneIcon from "@material-ui/icons/Phone";
+import EmailIcon from "@material-ui/icons/Email";
 import {
   addressFormat,
   taskDateFormat,
@@ -30,7 +33,7 @@ const styles = {
     width: "100%",
     position: "relative",
     overflow: "auto",
-    maxHeight: `calc(100vh - 110px)` // Estimated
+    maxHeight: `calc(100vh - 176px)` // Estimated
   },
   media: {
     width: "100%",
@@ -93,6 +96,9 @@ function TaskDetails({ classes, task }) {
               </ListItemSecondaryAction>
             </ListItem>
             <ListItem>
+              <ListItemIcon>
+                <CalendarTodayIcon color="primary" />
+              </ListItemIcon>
               <ListItemText
                 inset
                 primary={taskDateFormat(task)}
@@ -106,10 +112,33 @@ function TaskDetails({ classes, task }) {
                 secondary={technicianListFormat(task.technicians)}
               />
             </ListItem>
+            {task.email && (
+              <ListItem>
+                <ListItemIcon>
+                  <EmailIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary={task.email}
+                  secondary="Customer Email"
+                />
+              </ListItem>
+            )}
+            {task.phone && (
+              <ListItem>
+                <ListItemIcon>
+                  <PhoneIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary={task.phone}
+                  secondary="Customer Phone"
+                />
+              </ListItem>
+            )}
             <ListItem>
               <ListItemText inset primary="Notes:" secondary={task.notes} />
             </ListItem>
-            {/* <Divider variant="middle" /> */}
           </List>
         </CardContent>
       </Card>

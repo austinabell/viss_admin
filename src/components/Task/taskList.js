@@ -9,6 +9,7 @@ import Constants from "../../constants";
 import { selectTask } from "../../actions/taskActions";
 import TaskItem from "./TaskItem";
 import EditDialog from "../Dialog/EditDialog";
+import { durationToString } from "../../helpers/stringFormat";
 import { GET_TASKS } from "../../graphql/queries";
 
 const styles = {
@@ -36,10 +37,10 @@ const styles = {
 function TaskList({ classes, selectTask }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editTask, setEditTask] = useState({});
-  // const [taskList, setTaskList] = useState([]);
+
   return (
-    <Query query={GET_TASKS}>
-      {({ loading, error, data }) => {
+    <Query query={GET_TASKS} pollInterval={10000}>
+      {({ loading, error, data, refetch }) => {
         if (loading) return <PaperSkeleton />;
         if (error)
           return (
@@ -53,9 +54,6 @@ function TaskList({ classes, selectTask }) {
             </Paper>
           );
 
-        // if (data && !taskList) {
-        //   setTaskList(data);
-        // }
         return (
           <Paper className={classes.root}>
             <List>
@@ -66,7 +64,10 @@ function TaskList({ classes, selectTask }) {
                   onClick={() => selectTask(task)}
                   onEditClick={function() {
                     setDialogOpen(true);
-                    setEditTask(task);
+                    setEditTask({
+                      ...task,
+                      durationString: durationToString(task.duration)
+                    });
                   }}
                 />
               ))}
@@ -76,6 +77,10 @@ function TaskList({ classes, selectTask }) {
               onClose={() => setDialogOpen(false)}
               task={editTask}
               updateTask={setEditTask}
+              refetch={function() {
+                refetch();
+                selectTask(undefined);
+              }}
             />
           </Paper>
         );

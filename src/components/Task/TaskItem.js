@@ -10,9 +10,7 @@ import {
   IconButton,
   ListItemSecondaryAction
 } from "@material-ui/core";
-import { connect } from "react-redux";
 import Constants from "../../constants";
-import { selectTask } from "../../actions/taskActions";
 import {
   taskDateFormat,
   technicianListFormat,
@@ -123,7 +121,4 @@ TaskItem.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(
-  null,
-  { selectTask }
-)(withStyles(styles)(TaskItem));
+export default withStyles(styles)(TaskItem);

@@ -16,6 +16,7 @@ const GET_TASKS = gql`
       lat
       lng
       technicians {
+        id
         name
         email
       }
@@ -38,6 +39,11 @@ const GET_TECHNICIAN_TASKS = gql`
       status
       lat
       lng
+      technicians {
+        id
+        name
+        email
+      }
     }
   }
 `;

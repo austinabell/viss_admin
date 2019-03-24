@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import DirectionsIcon from "@material-ui/icons/Directions";
+import EditIcon from "@material-ui/icons/Edit";
 import {
   addressFormat,
   taskDateFormat,
@@ -88,7 +88,7 @@ function TaskDetails({ classes, task }) {
               />
               <ListItemSecondaryAction>
                 <IconButton>
-                  <DirectionsIcon color="primary" />
+                  <EditIcon color="primary" />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>

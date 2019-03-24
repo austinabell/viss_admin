@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import {
@@ -10,6 +10,7 @@ import {
   MenuItem,
   Grid
 } from "@material-ui/core";
+import Constants from "../../constants";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
@@ -48,15 +49,52 @@ const GET_TECHNICIANS = gql`
   }
 `;
 
-function AssignTechnicianInfo({ classes, task, updateTask }) {
-  // const [technicians, setNames] = useState([]);
+function removeDuplicate(arr) {
+  if (arr.length === 0) {
+    return [];
+  }
+  const last = arr.pop();
+  const length = arr.length;
+  arr = arr.filter((value) => value.id !== last.id);
+  if (arr.length === length) {
+    // Value clicked is new value
+    arr.push(last);
+  }
+  return arr;
+}
 
-  const { techniciansArr } = task;
+function AssignTechnicianInfo({ classes, theme, task, updateTask }) {
+  let { techniciansArr } = task;
+
+  useEffect(() => {
+    updateTask({ ...task, techniciansArr: task.technicians });
+  }, []);
+
+  function getStyles(user, list) {
+    if (!list) {
+      return null;
+    }
+    const selected = list.map((v) => v.id).indexOf(user.id) === -1;
+    // const selected = list.indexOf(user) === -1;
+    return {
+      fontWeight: selected
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+      color: selected ? null : Constants.primaryColor
+    };
+  }
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    const newArr = removeDuplicate(value);
+
+    updateTask({ ...task, techniciansArr: newArr });
+  };
 
   return (
     <Fragment>
       <Typography variant="h6" gutterBottom>
-        Assign Technician(s)
+        Assigned Technicians
       </Typography>
       <Grid container spacing={24}>
         <Grid item xs={12}>
@@ -73,10 +111,12 @@ function AssignTechnicianInfo({ classes, task, updateTask }) {
                 return (
                   <Select
                     multiple
-                    value={techniciansArr}
-                    onChange={(e) =>
-                      updateTask({ ...task, techniciansArr: e.target.value })
-                    }
+                    value={techniciansArr || []}
+                    // onOpen={populateTechnicianArray}
+                    // onChange={(e) =>
+                    //   updateTask({ ...task, techniciansArr: e.target.value })
+                    // }
+                    onChange={handleChange}
                     input={
                       <OutlinedInput labelWidth={0} id="province-simple" />
                     }
@@ -94,7 +134,10 @@ function AssignTechnicianInfo({ classes, task, updateTask }) {
                     )}
                     MenuProps={MenuProps}>
                     {data.users.map((user) => (
-                      <MenuItem key={user.id} value={user}>
+                      <MenuItem
+                        key={user.id}
+                        value={user}
+                        style={getStyles(user, techniciansArr)}>
                         {user.name ? user.name : user.email}
                       </MenuItem>
                     ))}
@@ -113,4 +156,4 @@ AssignTechnicianInfo.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AssignTechnicianInfo);
+export default withStyles(styles, { withTheme: true })(AssignTechnicianInfo);

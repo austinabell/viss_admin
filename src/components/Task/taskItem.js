@@ -6,7 +6,9 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
-  Typography
+  Typography,
+  IconButton,
+  ListItemSecondaryAction
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import Constants from "../../constants";
@@ -18,6 +20,7 @@ import {
   addressFormat
 } from "../../helpers/stringFormat";
 import DoneIcon from "@material-ui/icons/Done";
+import EditIcon from "@material-ui/icons/Edit";
 import CloseIcon from "@material-ui/icons/Close";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
@@ -48,6 +51,14 @@ const styles = {
     color: "#fff",
     backgroundColor: Constants.orangeColor
   },
+  rightActionButton: {
+    marginLeft: 16,
+    marginRight: 16
+    // padding: 8,
+    // paddingLeft: 16,
+    // paddingRight: 16,
+    // color: Constants.primaryColor
+  },
   errorText: {
     margin: 16
   }
@@ -74,7 +85,7 @@ function TaskAvatar({ classes, status }) {
   );
 }
 
-function TaskItem({ classes, task, onClick, hideAssigned }) {
+function TaskItem({ classes, task, onClick, onEditClick }) {
   return (
     <ListItem button onClick={onClick} alignItems="flex-start">
       <ListItemAvatar>
@@ -93,14 +104,17 @@ function TaskItem({ classes, task, onClick, hideAssigned }) {
             <Typography color="textSecondary">
               {`${taskDateFormat(task)} - ${taskTimeFormat(task)}`}
             </Typography>
-            {hideAssigned ? null : (
-              <Typography color="textSecondary">
-                {technicianListFormat(task.technicians)}
-              </Typography>
-            )}
+            <Typography color="textSecondary">
+              {technicianListFormat(task.technicians)}
+            </Typography>
           </Fragment>
         }
       />
+      <ListItemSecondaryAction>
+        <IconButton onClick={onEditClick} className={classes.rightActionButton}>
+          <EditIcon color="primary" />
+        </IconButton>
+      </ListItemSecondaryAction>
     </ListItem>
   );
 }

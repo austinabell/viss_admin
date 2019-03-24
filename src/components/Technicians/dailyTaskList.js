@@ -69,7 +69,6 @@ function DailyTaskList({ classes, id }) {
                   <TaskItem
                     key={task.id}
                     task={task}
-                    hideAssigned={true}
                     onClick={() => console.log(`pressed ${task.id}`)}
                   />
                 ))}

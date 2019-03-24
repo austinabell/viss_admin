@@ -61,9 +61,23 @@ const steps = ["Customer Details", "Task Details", "Select Technicians"];
 function getStepContent(step, task, updateTask) {
   switch (step) {
     case 0:
-      return <CustomerInfoForm task={task} updateTask={updateTask} />;
+      return (
+        <Fragment>
+          <Typography variant="h6" gutterBottom>
+            Customer Details
+          </Typography>
+          <CustomerInfoForm task={task} updateTask={updateTask} />
+        </Fragment>
+      );
     case 1:
-      return <TaskInfoForm task={task} updateTask={updateTask} />;
+      return (
+        <Fragment>
+          <Typography variant="h6" gutterBottom>
+            Task Details
+          </Typography>
+          <TaskInfoForm task={task} updateTask={updateTask} />
+        </Fragment>
+      );
     case 2:
       return <AssignTechnicianInfo task={task} updateTask={updateTask} />;
     default:

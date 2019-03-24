@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { List, Typography, Paper } from "@material-ui/core";
@@ -8,6 +8,7 @@ import PaperSkeleton from "../PaperSkeleton";
 import Constants from "../../constants";
 import { selectTask } from "../../actions/taskActions";
 import TaskItem from "./TaskItem";
+import EditDialog from "../Dialog/EditDialog";
 import { GET_TASKS } from "../../graphql/queries";
 
 const styles = {
@@ -33,6 +34,9 @@ const styles = {
 };
 
 function TaskList({ classes, selectTask }) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editTask, setEditTask] = useState({});
+  // const [taskList, setTaskList] = useState([]);
   return (
     <Query query={GET_TASKS}>
       {({ loading, error, data }) => {
@@ -49,6 +53,9 @@ function TaskList({ classes, selectTask }) {
             </Paper>
           );
 
+        // if (data && !taskList) {
+        //   setTaskList(data);
+        // }
         return (
           <Paper className={classes.root}>
             <List>
@@ -57,9 +64,19 @@ function TaskList({ classes, selectTask }) {
                   key={task.id}
                   task={task}
                   onClick={() => selectTask(task)}
+                  onEditClick={function() {
+                    setDialogOpen(true);
+                    setEditTask(task);
+                  }}
                 />
               ))}
             </List>
+            <EditDialog
+              open={dialogOpen}
+              onClose={() => setDialogOpen(false)}
+              task={editTask}
+              updateTask={setEditTask}
+            />
           </Paper>
         );
       }}

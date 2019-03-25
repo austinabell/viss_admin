@@ -56,7 +56,7 @@ function DailyTaskList({ classes, id }) {
         query={GET_TECHNICIAN_TASKS}
         variables={{ id }}
         skip={!id}
-        pollInterval={5000}>
+        pollInterval={4000}>
         {({ loading, error, data, refetch }) => {
           if (loading) return <PaperSkeleton />;
           if (error)

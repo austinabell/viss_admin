@@ -39,7 +39,7 @@ function TaskList({ classes, selectTask }) {
   const [editTask, setEditTask] = useState({});
 
   return (
-    <Query query={GET_TASKS} pollInterval={10000}>
+    <Query query={GET_TASKS} pollInterval={5000}>
       {({ loading, error, data, refetch }) => {
         if (loading) return <PaperSkeleton />;
         if (error)

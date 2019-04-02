@@ -27,6 +27,7 @@
   "scripts": {
     "start": "eval $(cat .env) node server",
     "dev": "eval $(cat .env.dev) react-scripts start",
+    "dev:prod": "eval $(cat .env) react-scripts start",
     "build": "eval $(cat .env) react-scripts build",
     "test": "react-scripts test"
   },

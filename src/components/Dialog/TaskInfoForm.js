@@ -39,7 +39,7 @@ function TaskInfoForm({ task, updateTask }) {
       </Grid>
       <Grid item xs={6}>
         <TimeField
-          value={task.durationString || "00:00"}
+          value={task.durationString || "01:00"}
           onChange={(durationString) => updateTask({ ...task, durationString })}
           input={
             <TextField

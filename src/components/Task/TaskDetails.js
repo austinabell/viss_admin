@@ -87,7 +87,7 @@ function TaskDetails({ classes, task }) {
               <ListItemText
                 inset
                 primary={addressFormat(task)}
-                secondary="address"
+                secondary="Address"
               />
               <ListItemSecondaryAction>
                 <IconButton>

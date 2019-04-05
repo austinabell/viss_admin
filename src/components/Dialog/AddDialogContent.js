@@ -103,7 +103,7 @@ function AddDialogContent({ classes, handleClose }) {
     isAllDay: false,
     techniciansArr: [],
     technicians: [],
-    durationString: "00:00"
+    durationString: "01:00"
   });
 
   const [activeStep, changeStep] = useState(0);

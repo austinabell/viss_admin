@@ -20,9 +20,11 @@ import {
 import DoneIcon from "@material-ui/icons/Done";
 import EditIcon from "@material-ui/icons/Edit";
 import CloseIcon from "@material-ui/icons/Close";
+import AssignmentReturnIcon from "@material-ui/icons/AssignmentReturn";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
-const styles = {
+const styles = (theme) => ({
   root: {
     marginTop: 0,
     paddingTop: 0,
@@ -36,17 +38,17 @@ const styles = {
   },
   avatar: {
     margin: 8,
-    color: "#fff",
+    color: theme.palette.type === "dark" ? "#424242" : "#fff",
     backgroundColor: Constants.secondaryColor
   },
   avatarFinished: {
     margin: 8,
-    color: "#fff",
+    color: theme.palette.type === "dark" ? "#424242" : "#fff",
     backgroundColor: Constants.primaryColor
   },
   avatarCancelled: {
     margin: 8,
-    color: "#fff",
+    color: theme.palette.type === "dark" ? "#424242" : "#fff",
     backgroundColor: Constants.orangeColor
   },
   rightActionButton: {
@@ -60,7 +62,7 @@ const styles = {
   errorText: {
     margin: 16
   }
-};
+});
 
 function TaskAvatar({ classes, status }) {
   if (status && status === "f") {
@@ -73,6 +75,18 @@ function TaskAvatar({ classes, status }) {
     return (
       <Avatar className={classes.avatarCancelled}>
         <CloseIcon />
+      </Avatar>
+    );
+  } else if (status && status === "o") {
+    return (
+      <Avatar className={classes.avatar}>
+        <AssignmentReturnIcon />
+      </Avatar>
+    );
+  } else if (status && status === "s") {
+    return (
+      <Avatar className={classes.avatar}>
+        <PlayArrowIcon />
       </Avatar>
     );
   }

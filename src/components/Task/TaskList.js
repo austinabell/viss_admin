@@ -42,17 +42,22 @@ function TaskList({ classes, selectTask }) {
     <Query query={GET_TASKS} pollInterval={5000}>
       {({ loading, error, data, refetch }) => {
         if (loading) return <PaperSkeleton />;
-        if (error)
-          return (
-            <Paper className={classes.root}>
-              <Typography variant="body1" className={classes.errorText}>
-                There was an error in retrieving the data.
-              </Typography>
-              <Typography className={classes.errorText}>
-                Code: {error.message}
-              </Typography>
-            </Paper>
-          );
+        if (error) {
+          if (!data) {
+            return (
+              <Paper className={classes.root}>
+                <Typography variant="body1" className={classes.errorText}>
+                  There was an error in retrieving the data.
+                </Typography>
+                <Typography className={classes.errorText}>
+                  Code: {error.message}
+                </Typography>
+              </Paper>
+            );
+          } else {
+            console.warn("Error in refreshing data: ", error);
+          }
+        }
 
         return (
           <Paper className={classes.root}>

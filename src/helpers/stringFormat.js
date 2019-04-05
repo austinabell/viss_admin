@@ -18,7 +18,7 @@ const taskDateFormat = function({ windowStart, duration }) {
   }
   return `${moment
     .unix(windowStart / 1000)
-    .format("ddd, MMM Do YYYY")} - ${durationString}`;
+    .format("ddd, MMM Do, YYYY")} - ${durationString}`;
 };
 
 const taskTimeFormat = function({ windowStart, windowEnd, isAllDay }) {
@@ -32,7 +32,7 @@ const taskTimeFormat = function({ windowStart, windowEnd, isAllDay }) {
 };
 
 const updatedFormat = function(updatedAt) {
-  return `${moment.unix(updatedAt / 1000).format("ddd, MMM, Do YYYY h:mmA")}`;
+  return `${moment.unix(updatedAt / 1000).format("ddd, MMM Do, YYYY h:mmA")}`;
 };
 
 const technicianListFormat = function(technicians) {
@@ -56,12 +56,17 @@ const addressFormat = function({ address, city, province }) {
 };
 
 const statusFormat = function(status) {
-  if (status === "f") {
-    return "Finished";
-  } else if (status === "c") {
-    return "Cancelled";
-  } else {
-    return "Not completed";
+  switch (status) {
+    case "f":
+      return "Finished";
+    case "c":
+      return "Cancelled";
+    case "o":
+      return "Ongoing";
+    case "s":
+      return "Started";
+    default:
+      return "Not Completed"
   }
 };
 
